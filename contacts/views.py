@@ -15,24 +15,21 @@ class AddContact(View):
         return render(request, 'add-contact.html')
 
     def post(self, request):
-        name = request.POST['name']
-        phone_number = request.POST['phone_number']
-        email = request.POST['email']
-        Contact.objects.create(name=name, phone_number=phone_number, email=email)
+        data = request.POST.dict()
+        del data['csrfmiddlewaretoken']
+        Contact.objects.create(**data)
         return redirect('/')
 
 
 class EditContact(View):
     def get(self, request, id):
-        contact = Contact.objects.get(id=f'{id}')
+        contact = Contact.objects.get(id=id)
         return render(request, 'edit-contact.html', {'contact': contact})
 
     def post(self, request, id):
-        contact = Contact.objects.get(id=f'{id}')
-        contact.name = request.POST['name']
-        contact.phone_number = request.POST['phone_number']
-        contact.email = request.POST['email']
-        contact.save()
+        data = request.POST.dict()
+        del data['csrfmiddlewaretoken']
+        Contact.objects.filter(id=id).update(**data)
         return redirect('/')
 
 
