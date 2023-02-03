@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from contacts.views import ContactView, AddContact, EditContact, DeleteContact
+from contacts.views import ContactView, AddContact, EditContact, DeleteContact, NameUp, NameDown
 
 
 urlpatterns = [
@@ -25,4 +25,6 @@ urlpatterns = [
     path('add', AddContact.as_view()),
     path('<int:id>/edit', EditContact.as_view()),
     path('<int:id>/delete', DeleteContact.as_view()),
+    path('nameup', NameUp.as_view()),
+    path('namedown', NameDown.as_view()),
 ]
